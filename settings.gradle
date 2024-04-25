@@ -12,3 +12,4 @@ plugins {
 
 rootProject.name = 'authoring-tutorial'
 include('app')
+include('lib')
