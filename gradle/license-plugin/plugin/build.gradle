@@ -29,8 +29,8 @@ gradlePlugin {
     // Define the plugin
     plugins {
         greeting {
-            id = 'org.example.greeting'
-            implementationClass = 'org.example.LicensePlugin'
+            id = 'com.tutorial.license'
+            implementationClass = 'license.LicensePlugin'
         }
     }
 }
