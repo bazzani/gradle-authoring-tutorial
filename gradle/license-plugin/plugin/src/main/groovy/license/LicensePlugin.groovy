@@ -3,8 +3,11 @@
  */
 package license
 
+import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.Plugin
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.TaskAction
 
 /**
  * A simple 'hello world' plugin.
@@ -15,6 +18,33 @@ class LicensePlugin implements Plugin<Project> {
         project.tasks.register("greeting") {
             doLast {
                 println("Hello from plugin 'com.tutorial.greeting'")
+            }
+        }
+    }
+}
+
+abstract class LicenseTask extends DefaultTask {
+    @Input
+    def fileName = project.rootDir.toString() + "/license.txt"
+
+    @TaskAction
+    void action() {
+        // Read the license text
+        def licenseText = new File(fileName).text
+
+        // Walk the directories looking for java files
+        new File(project.rootDir.toString()).eachFileRecurse { file ->
+            int lastIndexOf = file.getName().lastIndexOf('.')
+            boolean isJavaFile = lastIndexOf != -1 && file.getName().substring(lastIndexOf) == ".java"
+
+            if (isJavaFile) { // read the source code\
+                def content = file.getText()
+                def licensedContent = licenseText + '\n' + content
+
+                println('licensedContent:: ' + licensedContent)
+
+                // Write the license and the source code to the file
+                file.text = licensedContent
             }
         }
     }
