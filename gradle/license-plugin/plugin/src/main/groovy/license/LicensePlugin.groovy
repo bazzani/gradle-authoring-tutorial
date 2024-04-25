@@ -20,6 +20,10 @@ class LicensePlugin implements Plugin<Project> {
                 println("Hello from plugin 'com.tutorial.greeting'")
             }
         }
+        project.tasks.register("license", LicenseTask) { task ->
+            task.setDescription("add a license header to source code")
+            task.setGroup("from license plugin")
+        }
     }
 }
 
